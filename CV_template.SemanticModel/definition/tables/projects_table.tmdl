@@ -1,0 +1,137 @@
+table projects_table
+	lineageTag: 9804d677-6b74-4a76-a8e8-5108ef2db7e7
+
+	column startdate
+		dataType: dateTime
+		formatString: dd.mm.yy
+		lineageTag: d9210e4a-df49-4266-aeca-c31d60e6b6ef
+		summarizeBy: none
+		sourceColumn: startdate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column enddate
+		dataType: dateTime
+		formatString: dd.mm.yy
+		lineageTag: 742c3d5b-7264-49f6-ae0b-f40073678214
+		summarizeBy: none
+		sourceColumn: enddate
+
+		variation Variation
+			isDefault
+			relationship: 20725de2-8b6d-49fa-818a-47c401f579a1
+			defaultHierarchy: LocalDateTable_b23f8e1e-353f-4495-b5b1-d39f1216ccf4.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column sector/industry
+		dataType: string
+		lineageTag: 0da109e0-61ff-4815-a1fd-acd0eb9f85e3
+		summarizeBy: none
+		sourceColumn: sector/industry
+
+		annotation SummarizationSetBy = Automatic
+
+	column company
+		dataType: string
+		lineageTag: b467f8f3-0906-4b84-9253-92fc69d8fa70
+		summarizeBy: none
+		sourceColumn: company
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: d7210128-bcd0-4c43-8c97-5ed112a09048
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: d5469e48-4057-4bc0-bc35-c7bf3ac57967
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column department
+		dataType: string
+		lineageTag: 6d1e510f-8726-4241-82a6-1f3b3f2906e4
+		summarizeBy: none
+		sourceColumn: department
+
+		annotation SummarizationSetBy = Automatic
+
+	column role
+		dataType: string
+		lineageTag: b1744493-652b-4a5f-9a01-47d5c05fbd79
+		summarizeBy: none
+		sourceColumn: role
+
+		annotation SummarizationSetBy = Automatic
+
+	column project
+		dataType: string
+		lineageTag: fb6fbae4-d61e-4938-bd11-c91328076fcf
+		summarizeBy: none
+		sourceColumn: project
+
+		annotation SummarizationSetBy = Automatic
+
+	column description
+		dataType: string
+		lineageTag: 26a5cbae-5d2e-49c7-b514-1f4e94aed890
+		summarizeBy: none
+		sourceColumn: description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'duration days'
+		dataType: double
+		lineageTag: aa033a50-d137-4be5-b96b-3ebe8b24a92d
+		summarizeBy: sum
+		sourceColumn: duration days
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'duration months'
+		dataType: int64
+		formatString: 0
+		lineageTag: 9a92ee6c-330a-4382-8e8a-9ef70374bd32
+		summarizeBy: sum
+		sourceColumn: duration months
+
+		annotation SummarizationSetBy = Automatic
+
+	partition projects_table = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\cajordan\Documents\import_cv_pseud.xlsx"), null, true),
+				    projects_table_Table = Source{[Item="projects_table",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(projects_table_Table,{{"startdate", type date}, {"enddate", type any}, {"sector/industry", type text}, {"company", type text}, {"city", type text}, {"country", type text}, {"department", type text}, {"role", type text}, {"project", type text}, {"description", type text}}),
+				    Custom1 = Table.ReplaceValue(#"Changed Type", null, DateTime.Date(DateTime.LocalNow()), Replacer.ReplaceValue, {"enddate"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(Custom1,{{"enddate", type date}}),
+				    Custom2 = Table.AddColumn(#"Changed Type1", "duration days", each Duration.From([enddate] + #duration(1, 0, 0, 0) - [startdate])),
+				    #"Changed Type2" = Table.TransformColumnTypes(Custom2,{{"duration days", type duration}}),
+				    #"Added Custom" = Table.AddColumn(#"Changed Type2", "duration months", each Number.RoundDown(Duration.From([enddate] + #duration(1, 0, 0, 0) - [startdate]) / #duration(30, 0, 0, 0))),
+				    #"Changed Type3" = Table.TransformColumnTypes(#"Added Custom",{{"duration months", Int64.Type}})
+				in
+				    #"Changed Type3"
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navigation
+

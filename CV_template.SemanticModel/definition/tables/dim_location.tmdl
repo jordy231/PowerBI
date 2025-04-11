@@ -1,0 +1,60 @@
+table dim_location
+	lineageTag: 0b066260-c049-4428-8e87-ed20a0fd2409
+
+	column city
+		dataType: string
+		lineageTag: 90eb2096-2684-43b0-bd8c-777fb4bfdab7
+		dataCategory: City
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: 3322dd39-ddc3-4d09-b89f-cf80218d5032
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column longitute
+		dataType: string
+		lineageTag: 29689b3f-bc93-488b-a751-77a0ecb5b005
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: longitute
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitude
+		dataType: string
+		lineageTag: ab55650b-a62b-4161-ab7e-9dd3e147a51b
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: latitude
+
+		annotation SummarizationSetBy = Automatic
+
+	column company_institution
+		dataType: string
+		lineageTag: 2b761d5b-04cd-4c1f-aac7-30d8c7fb3111
+		summarizeBy: none
+		sourceColumn: company_institution
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_location = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\cajordan\Documents\import_cv_pseud.xlsx"), null, true),
+				    dim_location_Table = Source{[Item="dim_location",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(dim_location_Table,{{"longitute", type text}, {"latitude", type text}, {"country", type text}, {"city", type text}, {"company_institution", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

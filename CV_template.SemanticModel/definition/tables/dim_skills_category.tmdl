@@ -1,0 +1,24 @@
+table dim_skills_category
+	lineageTag: f377d541-1d38-4eb4-98bf-23e206d2108b
+
+	column category
+		dataType: string
+		lineageTag: 4c1d89c8-a258-4352-9d6c-c34128448327
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_skills_category = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("ZY49C8IwEIb/ytHZoTi4t9ZBcGvRoXY467UcppeQSwr667URiuD0wsP71bbZCWWMOJJm3abNyqgspAqNteaL9p4w8Ew/6FgdklYYEApB8wzcK6Dc4cwa0fDrE7GSTIVzUNFMxrqJJKysJj9zTwrXmOfbHZQ8wlKYDBe6/YXSWuNRdLAep3WgtkOA+sFmede9AQ==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [category = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"category", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

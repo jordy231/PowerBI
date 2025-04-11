@@ -1,0 +1,35 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: de-DE
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["dim_date","projects_table","timeline_table","dim_location","languages","skills_tools","dim_skills_category","timeline_visual","dim_institution"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.141.1451.0 (25.03)+5007b75f0f7edbed506e31fcb76584cd6d711788
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table DateTableTemplate_c7d056cd-47f6-413f-8968-14607dc15b31
+ref table projects_table
+ref table dim_date
+ref table LocalDateTable_584c4f48-40f5-462f-9290-98e5c9c28faa
+ref table timeline_table
+ref table LocalDateTable_ab091162-f18b-49a0-8759-8d3cfdb4ffd9
+ref table dim_location
+ref table LocalDateTable_b23f8e1e-353f-4495-b5b1-d39f1216ccf4
+ref table languages
+ref table skills_tools
+ref table dim_skills_category
+ref table timeline_visual
+ref table dim_institution
+ref table LocalDateTable_2432db28-111d-4869-af77-56c4fe0534e1
+ref table LocalDateTable_121a4fca-914f-401f-8e9c-431fafd48e17
+ref table LocalDateTable_a7984c4c-c9d2-44b3-834e-6d2195bd5d36
+
+ref cultureInfo en-US
+

@@ -1,0 +1,149 @@
+table timeline_table
+	lineageTag: 31bfdd7f-ec4e-42d9-8fa4-2c1c225787c0
+
+	column startdate
+		dataType: dateTime
+		formatString: mmmm yyyy
+		lineageTag: b04530dd-13d5-4fea-b9af-a94fc54a27fb
+		summarizeBy: none
+		sourceColumn: startdate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column enddate
+		dataType: dateTime
+		formatString: mmmm yyyy
+		lineageTag: 1b24b825-60f0-4af8-a060-00d3a9e44d2b
+		summarizeBy: none
+		sourceColumn: enddate
+
+		variation Variation
+			isDefault
+			relationship: c71c122a-4698-4041-aed5-33721e2b28b6
+			defaultHierarchy: LocalDateTable_ab091162-f18b-49a0-8759-8d3cfdb4ffd9.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column city
+		dataType: string
+		lineageTag: d3dcaf0e-a60f-426e-9c08-22b851980e4c
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: 8a10cc74-19c2-477d-8d52-9cf1b8589318
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column contract
+		dataType: string
+		lineageTag: c9d99e2c-4a43-44ba-86e2-726a3bf9befd
+		summarizeBy: none
+		sourceColumn: contract
+
+		annotation SummarizationSetBy = Automatic
+
+	column role
+		dataType: string
+		lineageTag: 8b662115-cb7a-4302-b44b-e76eacc8c184
+		summarizeBy: none
+		sourceColumn: role
+
+		annotation SummarizationSetBy = Automatic
+
+	column details
+		dataType: string
+		lineageTag: 1e60cf01-24ca-4646-a499-cc56f5e81f2c
+		summarizeBy: none
+		sourceColumn: details
+
+		annotation SummarizationSetBy = Automatic
+
+	column institution_name
+		dataType: string
+		lineageTag: 782b0f36-f6ca-4b5c-af84-0d06ac41b9d6
+		summarizeBy: none
+		sourceColumn: institution_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column institution_description
+		dataType: string
+		lineageTag: 3d71747d-0424-40da-9d3c-199a7b0afff7
+		summarizeBy: none
+		sourceColumn: institution_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column title
+		dataType: string
+		lineageTag: 34bc257f-0437-46e8-adab-4355deea1c8e
+		summarizeBy: none
+		sourceColumn: title
+
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		lineageTag: 766f9307-3149-472f-8c42-e8c8fbce7253
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column logo_url
+		dataType: string
+		lineageTag: ab7282a0-7943-45a3-8bf0-925d669a1ed2
+		dataCategory: ImageUrl
+		summarizeBy: none
+		sourceColumn: logo_url
+
+		annotation SummarizationSetBy = Automatic
+
+	column index_timeline
+		dataType: string
+		lineageTag: a77efb86-3430-4912-8fba-c40437383a9c
+		summarizeBy: none
+		sourceColumn: index_timeline
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_institution
+		dataType: int64
+		formatString: 0
+		lineageTag: 6e43e025-7736-4e73-9e19-84e4c7132775
+		summarizeBy: sum
+		sourceColumn: id_institution
+
+		annotation SummarizationSetBy = Automatic
+
+	partition timeline_table = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\cajordan\Documents\import_cv_pseud.xlsx"), null, true),
+				    timeline_table_Table = Source{[Item="timeline_table",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(timeline_table_Table,{{"startdate", type date}, {"enddate", type date}, {"institution_name", type text}, {"institution_description", type text}, {"city", type text}, {"country", type text}, {"contract", type text}, {"title", type text}, {"role", type text}, {"details", type text}}),
+				    Custom1 = Table.ReplaceValue(#"Changed Type", null, DateTime.Date(DateTime.LocalNow()), Replacer.ReplaceValue, {"enddate"}),
+				    #"Merged Queries" = Table.NestedJoin(Custom1, {"institution_name"}, dim_institution, {"institution_name"}, "dim_institution", JoinKind.LeftOuter),
+				    #"Expanded dim_institution" = Table.ExpandTableColumn(#"Merged Queries", "dim_institution", {"id_institution"}, {"id_institution"})
+				in
+				    #"Expanded dim_institution"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

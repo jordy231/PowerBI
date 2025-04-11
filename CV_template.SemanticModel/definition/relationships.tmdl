@@ -1,0 +1,64 @@
+relationship 1a2708dd-ac81-4e08-b550-e7c6fab3597c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_date.date_startofmonth
+	toColumn: LocalDateTable_584c4f48-40f5-462f-9290-98e5c9c28faa.Date
+
+relationship bea0e76e-ae50-47e6-af14-22edc729411e
+	fromColumn: projects_table.startdate
+	toColumn: dim_date.startdate
+
+relationship c71c122a-4698-4041-aed5-33721e2b28b6
+	joinOnDateBehavior: datePartOnly
+	fromColumn: timeline_table.enddate
+	toColumn: LocalDateTable_ab091162-f18b-49a0-8759-8d3cfdb4ffd9.Date
+
+relationship 20725de2-8b6d-49fa-818a-47c401f579a1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: projects_table.enddate
+	toColumn: LocalDateTable_b23f8e1e-353f-4495-b5b1-d39f1216ccf4.Date
+
+relationship 658791c8-ccf2-4484-9e23-f4b68b294f8b
+	fromColumn: skills_tools.category
+	toColumn: dim_skills_category.category
+
+relationship 401cffb5-1ad7-408f-85fb-cb1c1eda019f
+	fromColumn: languages.category
+	toColumn: dim_skills_category.category
+
+relationship AutoDetected_0d099297-55ef-4d2c-b77f-3024dd204068
+	fromColumn: timeline_table.institution_name
+	toColumn: dim_institution.institution_name
+
+relationship AutoDetected_fa9419d9-3539-4bb1-9399-d894c2980b6a
+	fromColumn: timeline_visual.id_institution
+	toColumn: dim_institution.id_institution
+
+relationship 9a6039fb-f50e-b375-4719-dc1b9c6594c2
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: dim_location.company_institution
+	toColumn: dim_institution.institution_name
+
+relationship 0fd02992-15a4-4274-92a1-9d1720ccc7d0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: timeline_visual.startdate
+	toColumn: LocalDateTable_2432db28-111d-4869-af77-56c4fe0534e1.Date
+
+relationship 5b3dd8af-8fab-7c47-3d47-9befd94fc490
+	fromColumn: timeline_visual.Datum
+	toColumn: dim_date.startdate
+
+relationship b9b68be5-b0be-e47e-5bed-097168fb9f8a
+	fromColumn: timeline_table.startdate
+	toColumn: dim_date.startdate
+
+relationship fe2d2827-2b6e-4de4-aab9-d393776288e6
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_date.startdate
+	toColumn: LocalDateTable_121a4fca-914f-401f-8e9c-431fafd48e17.Date
+
+relationship 8a39530a-16e3-4bfe-8b68-b83063ea2aa8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_date.enddate
+	toColumn: LocalDateTable_a7984c4c-c9d2-44b3-834e-6d2195bd5d36.Date
+

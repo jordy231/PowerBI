@@ -1,0 +1,112 @@
+table dim_date
+	lineageTag: 96e9e934-41a2-4fd2-a525-4d370961fada
+
+	column startdate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 05da3b3e-3a75-457d-ba68-7b1aa4e23249
+		summarizeBy: none
+		sourceColumn: startdate
+
+		variation Variation
+			isDefault
+			relationship: fe2d2827-2b6e-4de4-aab9-d393776288e6
+			defaultHierarchy: LocalDateTable_121a4fca-914f-401f-8e9c-431fafd48e17.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column jahr
+		dataType: int64
+		formatString: 0
+		lineageTag: 4b099048-417b-4223-979e-203199ae3b7b
+		summarizeBy: sum
+		sourceColumn: jahr
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_startofmonth
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: a4f955f4-2e7d-4de7-9187-f35398db2c18
+		summarizeBy: none
+		sourceColumn: date_startofmonth
+
+		variation Variation
+			isDefault
+			relationship: 1a2708dd-ac81-4e08-b550-e7c6fab3597c
+			defaultHierarchy: LocalDateTable_584c4f48-40f5-462f-9290-98e5c9c28faa.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column date_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 0da39603-0c89-47bf-870a-811412b062a8
+		summarizeBy: sum
+		sourceColumn: date_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column monat
+		dataType: int64
+		formatString: 0
+		lineageTag: f3e41126-dc6c-43e3-8829-14031d502473
+		summarizeBy: sum
+		sourceColumn: monat
+
+		annotation SummarizationSetBy = Automatic
+
+	column enddate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 2e3103b9-369f-4dac-a2c4-e4667fa5b68e
+		summarizeBy: none
+		sourceColumn: enddate
+
+		variation Variation
+			isDefault
+			relationship: 8a39530a-16e3-4bfe-8b68-b83063ea2aa8
+			defaultHierarchy: LocalDateTable_a7984c4c-c9d2-44b3-834e-6d2195bd5d36.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition dim_date = m
+		mode: import
+		source =
+				let
+				    //Variabeln für Date Table
+				    StartDate = #date(2016,01,01),
+				    EndDate = #date(2025,01,01),
+				    Duration = Duration.Days(Duration.From(EndDate-StartDate))+1,
+				    Date = List.Dates(StartDate, Duration, #duration(1,0,0,0)),
+				    #"Converted to Table" = Table.FromList(Date, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+				    #"Renamed Columns" = Table.RenameColumns(#"Converted to Table",{{"Column1", "date"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"date", type date}}),
+				    #"Inserted Year" = Table.AddColumn(#"Changed Type", "year", each Date.Year([date]), Int64.Type),
+				    #"Inserted Month" = Table.AddColumn(#"Inserted Year", "month", each Date.Month([date]), Int64.Type),
+				    #"Added Custom" = Table.AddColumn(#"Inserted Month", "date_startofmonth", each #date([year],[month],1)),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Added Custom",{{"date_startofmonth", type date}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type1",{"month"}),
+				    #"Benutzerdefinierte Spalte hinzugefügt" = Table.AddColumn(#"Removed Columns", "Benutzerdefiniert", each Text.Combine({Date.ToText([date], "yyyy"), Date.ToText([date], "MM"), Date.ToText([date], "dd")}), type text),
+				    #"Umbenannte Spalten" = Table.RenameColumns(#"Benutzerdefinierte Spalte hinzugefügt",{{"Benutzerdefiniert", "date_id"}}),
+				    #"Geänderter Typ" = Table.TransformColumnTypes(#"Umbenannte Spalten",{{"date_id", Int64.Type}}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Geänderter Typ",{{"date", "Date"}, {"year", "Jahr"}}),
+				    #"Added Custom1" = Table.AddColumn(#"Renamed Columns1", "Monat", each Date.Month([Date])),
+				    #"Geänderter Typ1" = Table.TransformColumnTypes(#"Added Custom1",{{"Monat", Int64.Type}}),
+				    tableout =  Table.TransformColumnNames( #"Geänderter Typ1", Text.Lower),
+				    #"Renamed Columns2" = Table.RenameColumns(tableout,{{"date", "startdate"}}),
+				    #"Inserted Date1" = Table.AddColumn(#"Renamed Columns2", "enddate", each DateTime.Date([startdate]), type date),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Inserted Date1",{{"startdate", type date}, {"enddate", type date}})
+				in
+				 #"Changed Type2"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

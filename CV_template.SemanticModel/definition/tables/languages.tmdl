@@ -1,0 +1,83 @@
+table languages
+	lineageTag: 25b6016e-e93d-4085-9f56-48e7286d7cac
+
+	column language
+		dataType: string
+		lineageTag: 26423e2a-fecb-4b8b-b800-72c1004c16c4
+		summarizeBy: none
+		sourceColumn: language
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column level
+		dataType: string
+		lineageTag: 9e51c426-98a8-44b6-a171-4531cb6cd1d1
+		summarizeBy: none
+		sourceColumn: level
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column description
+		dataType: string
+		lineageTag: 5a944758-f309-476a-b31d-39838d8a38ed
+		summarizeBy: none
+		sourceColumn: description
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column flag_url
+		dataType: string
+		lineageTag: eb7a4fe2-f735-417c-9859-6a168d845f1d
+		dataCategory: ImageUrl
+		summarizeBy: none
+		sourceColumn: flag_url
+		sortByColumn: sort_index
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column sort_index
+		dataType: string
+		lineageTag: ff23b032-8315-4e1d-bded-44baadaec8a8
+		summarizeBy: none
+		sourceColumn: sort_index
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		lineageTag: 93db41fc-a5c9-4f3b-90c6-8258b878560f
+		summarizeBy: none
+		sourceColumn: category
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition languages = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("jcyxDoIwEAbgd+lMqKKDcQMjbi6OhOFoj9KkXJq24OvbajoYFob7c7n783Ude6CbgVjBblWMJwS9YlymEKy/cj4aUBalhpIwcAkBvifPp8uBSyzfONhYP8YxQGoBhZ71RcfupIz2U4LTszULUtgLqyHD1QZ+WaAf3CS4liuQQLmXRp/p04ZuHZJIcp3kBrwWe9nRZfb8z/Yf", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [language = _t, level = _t, description = _t, flag = _t, sort_index = _t, category = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"language", type text}, {"level", type text}, {"description", type text}, {"flag", type text}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"flag", "flag_url"}})
+				in
+				    #"Renamed Columns"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

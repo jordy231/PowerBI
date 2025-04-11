@@ -1,0 +1,71 @@
+table dim_institution
+	lineageTag: 3b34c470-d277-45d6-bebd-0bb570202a46
+
+	column institution_name
+		dataType: string
+		lineageTag: 19d6764b-b492-4f31-842e-364db2ba668b
+		summarizeBy: none
+		sourceColumn: institution_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column institution_description
+		dataType: string
+		lineageTag: f929c981-1668-425f-98b0-8a6b462cb06c
+		summarizeBy: none
+		sourceColumn: institution_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: 9d60e289-e2ee-422b-8b7f-cd9d680095e8
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: 867069fb-f784-42bc-8ead-62fd06439062
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_institution
+		dataType: int64
+		formatString: 0
+		lineageTag: 9aa7e52e-c15f-4f19-a134-673db61680f6
+		summarizeBy: none
+		sourceColumn: id_institution
+
+		annotation SummarizationSetBy = Automatic
+
+	column institution_category
+		dataType: string
+		lineageTag: d2ee553f-fc91-4850-8a72-cade489658e7
+		summarizeBy: none
+		sourceColumn: institution_category
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_institution = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\cajordan\Documents\import_cv_pseud.xlsx"), null, true),
+				    timeline_table_Table = Source{[Item="timeline_table",Kind="Table"]}[Data],
+				    #"Removed Other Columns" = Table.SelectColumns(timeline_table_Table,{"institution_name", "institution_description", "city", "country"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Removed Duplicates",{{"institution_name", type text}, {"institution_description", type text}, {"city", type text}, {"country", type text}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Changed Type", "id_institution", 1, 1, Int64.Type),
+				    #"Added Conditional Column" = Table.AddColumn(#"Added Index", "institution_category", each if [institution_description] = "University" then "Studies" else "Work Experience"),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Added Conditional Column",{{"institution_category", type text}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

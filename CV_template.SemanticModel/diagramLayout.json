@@ -1,0 +1,319 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 284,
+            "y": 32.5
+          },
+          "nodeIndex": "projects_table",
+          "nodeLineageTag": "9804d677-6b74-4a76-a8e8-5108ef2db7e7",
+          "size": {
+            "height": 337,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 283,
+            "y": 401.5
+          },
+          "nodeIndex": "dim_date",
+          "nodeLineageTag": "96e9e934-41a2-4fd2-a525-4d370961fada",
+          "size": {
+            "height": 349,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 850,
+            "y": 16.5
+          },
+          "nodeIndex": "timeline_table",
+          "nodeLineageTag": "31bfdd7f-ec4e-42d9-8fa4-2c1c225787c0",
+          "size": {
+            "height": 447,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 1136,
+            "y": 291.5
+          },
+          "nodeIndex": "dim_location",
+          "nodeLineageTag": "0b066260-c049-4428-8e87-ed20a0fd2409",
+          "size": {
+            "height": 245,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 649,
+            "y": 543.5
+          },
+          "nodeIndex": "languages",
+          "nodeLineageTag": "25b6016e-e93d-4085-9f56-48e7286d7cac",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 866,
+            "y": 772.5
+          },
+          "nodeIndex": "dim_skills_category",
+          "nodeLineageTag": "f377d541-1d38-4eb4-98bf-23e206d2108b",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 992,
+            "y": 522.5
+          },
+          "nodeIndex": "skills_tools",
+          "nodeLineageTag": "f1637fcf-ccad-4d4a-b960-5f024ae4d598",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 1129,
+            "y": 24.5
+          },
+          "nodeIndex": "timeline_visual",
+          "nodeLineageTag": "7ff5c456-b368-4404-aa26-eb2340153a63",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 11
+        },
+        {
+          "location": {
+            "x": 1495,
+            "y": 411.5
+          },
+          "nodeIndex": "dim_institution",
+          "nodeLineageTag": "3b34c470-d277-45d6-bebd-0bb570202a46",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 10
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 1,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 305,
+            "y": 81
+          },
+          "nodeIndex": "languages",
+          "nodeLineageTag": "25b6016e-e93d-4085-9f56-48e7286d7cac",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 607,
+            "y": 341
+          },
+          "nodeIndex": "dim_skills_category",
+          "nodeLineageTag": "f377d541-1d38-4eb4-98bf-23e206d2108b",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 795,
+            "y": 29
+          },
+          "nodeIndex": "skills_tools",
+          "nodeLineageTag": "f1637fcf-ccad-4d4a-b960-5f024ae4d598",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "skills",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 2,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 692,
+            "y": 184
+          },
+          "nodeIndex": "timeline_table",
+          "nodeLineageTag": "31bfdd7f-ec4e-42d9-8fa4-2c1c225787c0",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0,
+          "expandedHeight": 436
+        },
+        {
+          "location": {
+            "x": 221,
+            "y": 189
+          },
+          "nodeIndex": "timeline_visual",
+          "nodeLineageTag": "7ff5c456-b368-4404-aa26-eb2340153a63",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0,
+          "expandedHeight": 152
+        },
+        {
+          "location": {
+            "x": 761,
+            "y": 565
+          },
+          "nodeIndex": "dim_location",
+          "nodeLineageTag": "0b066260-c049-4428-8e87-ed20a0fd2409",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0,
+          "expandedHeight": 200
+        },
+        {
+          "location": {
+            "x": 464,
+            "y": 380
+          },
+          "nodeIndex": "dim_institution",
+          "nodeLineageTag": "3b34c470-d277-45d6-bebd-0bb570202a46",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0,
+          "expandedHeight": 245
+        },
+        {
+          "location": {
+            "x": 479,
+            "y": 0
+          },
+          "nodeIndex": "dim_date",
+          "nodeLineageTag": "96e9e934-41a2-4fd2-a525-4d370961fada",
+          "size": {
+            "height": 152,
+            "width": 189
+          },
+          "zIndex": 0,
+          "expandedHeight": 289
+        }
+      ],
+      "name": "timeline",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 3,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 725,
+            "y": 32
+          },
+          "nodeIndex": "dim_date",
+          "nodeLineageTag": "96e9e934-41a2-4fd2-a525-4d370961fada",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 116,
+            "y": 318
+          },
+          "nodeIndex": "projects_table",
+          "nodeLineageTag": "9804d677-6b74-4a76-a8e8-5108ef2db7e7",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "education_experience",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "skills",
+  "defaultDiagram": "All tables"
+}

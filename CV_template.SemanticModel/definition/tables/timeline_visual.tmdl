@@ -1,0 +1,86 @@
+table timeline_visual
+	lineageTag: 7ff5c456-b368-4404-aa26-eb2340153a63
+
+	column Datum
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: d3f470db-4475-40a7-a097-dc5c9d143e06
+		summarizeBy: none
+		sourceColumn: Datum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Attribute
+		dataType: string
+		lineageTag: e53ce82d-09d3-412b-84d8-5bc455589527
+		summarizeBy: none
+		sourceColumn: Attribute
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value
+		dataType: int64
+		formatString: 0
+		lineageTag: a7b52916-823a-496f-a8ab-ae8fd8575b00
+		summarizeBy: sum
+		sourceColumn: Value
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_institution
+		dataType: int64
+		formatString: 0
+		lineageTag: 1896a721-b772-4aae-b513-c3deb2fd651a
+		summarizeBy: none
+		sourceColumn: id_institution
+
+		annotation SummarizationSetBy = Automatic
+
+	column startdate
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 1ef92c0c-a6a7-4a88-ad02-73ca640415e8
+		summarizeBy: none
+		sourceColumn: startdate
+
+		variation Variation
+			isDefault
+			relationship: 0fd02992-15a4-4274-92a1-9d1720ccc7d0
+			defaultHierarchy: LocalDateTable_2432db28-111d-4869-af77-56c4fe0534e1.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition timeline_visual = m
+		mode: import
+		source =
+				let
+				    StartDatum = #date(2016, 10, 1),
+				    Heute = Date.From(DateTime.LocalNow()),
+				    AnzahlTage = Duration.Days(Heute - StartDatum),
+				    Datumsliste = List.Dates(StartDatum, AnzahlTage + 1, #duration(1, 0, 0, 0)),
+				    Tabelle = Table.FromList(Datumsliste, Splitter.SplitByNothing(), {"Datum"}),
+				    #"Changed Type" = Table.TransformColumnTypes(Tabelle,{{"Datum", type date}}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Changed Type", "HAW Landshut", each if [Datum] >= #date(2016, 10, 1) and [Datum] < #date(2020, 6, 30) then 1  else null),
+				    #"Added Conditional Column1" = Table.AddColumn(#"Added Conditional Column", "Griffith College Dublin", each if [Datum] >= #date(2017, 9, 1) and [Datum] < #date(2018, 5, 30) then 2 else null),
+				    Custom1 = Table.AddColumn(#"Added Conditional Column1", "Technische Hochschule Nürnberg", each if [Datum] >= #date(2020, 10, 1) and [Datum] < #date(2023, 7, 31) then 5 else null),
+				    Custom2 = Table.AddColumn(#"Custom1", "Tradeshow Company", each if [Datum] >= #date(2019, 7, 1) and [Datum] < #date(2019, 12, 31) then 3 else null),
+				    Custom3 = Table.AddColumn(#"Custom2", "Vacation Rental Company", each if [Datum] >= #date(2020, 1, 15) and [Datum] < #date(2020, 3, 15) then 4 else null),
+				    Custom4 = Table.AddColumn(#"Custom3", "Software Company", each if [Datum] >= #date(2020, 12, 1) and [Datum] < #date(2022, 3, 31) then 6 else null),
+				    Custom5 = Table.AddColumn(#"Custom4", "Analytics Consulting Company", each if [Datum] >= #date(2022, 4, 1) and [Datum] < #date(2024, 4, 30) then 7 else null),
+				    Custom6 = Table.AddColumn(#"Custom5", "IT Consulting Company", each if [Datum] >= #date(2024, 5, 1) then 8 else null),
+				    #"Unpivoted Columns" = Table.UnpivotOtherColumns(Custom6, {"Datum"}, "Attribute", "Value"),
+				    #"Added Conditional Column2" = Table.AddColumn(#"Unpivoted Columns", "startdate", each if [Datum] = #date(2016, 10, 1) then [Datum] else if [Datum] = #date(2017, 9, 1) then [Datum] else if [Datum] = #date(2020, 10, 1) then [Datum] else if [Datum] = #date(2019, 7, 1) then [Datum] else if [Datum] = #date(2020, 1, 15) then [Datum] else if [Datum] = #date(2020, 12, 1) then [Datum] else if [Datum] = #date(2022, 4, 1) then [Datum] else if [Datum] = #date(2023, 8, 1) then [Datum] else if [Datum] = #date(2024, 5, 1) then [Datum] else null),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Added Conditional Column2",{{"Value", Int64.Type}, {"startdate", type date}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Changed Type1", {"Attribute"}, dim_institution, {"institution_name"}, "dim_institution", JoinKind.LeftOuter),
+				    #"Expanded dim_institution" = Table.ExpandTableColumn(#"Merged Queries", "dim_institution", {"id_institution"}, {"id_institution"})
+				in
+				    #"Expanded dim_institution"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

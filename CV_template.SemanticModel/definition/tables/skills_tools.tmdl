@@ -1,0 +1,61 @@
+table skills_tools
+	lineageTag: f1637fcf-ccad-4d4a-b960-5f024ae4d598
+
+	column category
+		dataType: string
+		lineageTag: 9582f037-d43f-4f54-9082-28838f1a5c66
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column skill
+		dataType: string
+		lineageTag: b3cb570c-95de-4e35-830a-491bc8235793
+		summarizeBy: none
+		sourceColumn: skill
+
+		annotation SummarizationSetBy = Automatic
+
+	column level
+		dataType: string
+		lineageTag: a52be02c-18e1-4328-af63-b8da44192a9a
+		summarizeBy: none
+		sourceColumn: level
+
+		annotation SummarizationSetBy = Automatic
+
+	column rest
+		dataType: int64
+		formatString: 0
+		lineageTag: fbe103bc-8c24-44ab-a157-9273cd1b9614
+		summarizeBy: sum
+		sourceColumn: rest
+
+		annotation SummarizationSetBy = Automatic
+
+	column level_num
+		dataType: int64
+		formatString: 0
+		lineageTag: 05676cca-a1f7-451e-9920-e8212910ff2f
+		summarizeBy: sum
+		sourceColumn: level_num
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	partition skills_tools = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\cajordan\Documents\import_cv_pseud.xlsx"), null, true),
+				    skills_tools_table_Table = Source{[Item="skills_tools_table",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(skills_tools_table_Table,{{"category", type text}, {"skill", type text}, {"level", type any}, {"rest", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+
